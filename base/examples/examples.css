@@ -1,0 +1,122 @@
+body {
+	margin:50px 0px; 
+	margin-top: 20px;
+	margin-bottom: 10px;
+	padding:0px;
+	text-align:center;
+	font-family: "Trebuchet MS";
+	font-size: 13px;
+	background: url('../images/background_blackgray_inv2.png');
+}
+
+#wrapper {
+	width:900px;
+	margin:0px auto;
+	text-align:left;
+	padding:15px;
+	border:1px dashed #333;
+	background-color:#eee;
+}
+
+#header {
+	border-bottom: 1px solid black;
+}
+
+.page_title {
+	font-weight: bold;
+	font-size: 18pt;
+	margin-bottom: 15px;
+	color: #0a94d5;
+}
+
+#menu {
+	float: left;
+	width: 200px;
+	height: 475px;
+	border-right: 1px solid black;
+}
+
+#menu_title {
+	font-weight: bold;
+	display: block;
+	margin-top: 10px;
+	margin-bottom: 25px;
+	font-size: 18pt;
+	color: #0a94d5;
+}
+
+#menu ul {
+	list-style: none;
+}
+
+#menu ul li {
+	line-height: 2em;
+}
+
+#content {
+	float: left;	
+}
+
+.demo_section {
+	float: left;
+	clear: both;
+	padding-left: 20px;
+}
+
+.demo_section_title {
+	font-weight: bold;
+	display: block;
+	margin-top: 10px;
+	margin-bottom: 25px;
+	font-size: 18pt;
+	color: #0a94d5;
+}
+
+.demo_subsection {
+	float: left;
+	margin-left: 25px;
+}
+
+#spinner_test {
+	float: left;
+	display: block;
+	margin-top: 15px;
+}
+
+button {
+	margin-left: 8px;
+	margin-top: 8px;
+}
+
+#grid_demo {
+	width: 600px;	
+}
+
+#grid_options {
+	float: left;
+}
+
+#grid_buttons {
+	clear: both;
+	float: left;
+	margin-top: 25px;
+}
+
+#grid_buttons button, #grid_top_buttons button {
+	background-color: white;
+	width: 150px;
+	font-family: "Arial";
+	color: blue;
+}
+
+#grid_top_buttons {
+	float: left;
+	margin-left: 25px;
+}
+
+#test_grid {
+	clear: both;
+	float: left;
+	margin: 10px;
+}
+

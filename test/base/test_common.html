@@ -1,0 +1,237 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>JsUnit base/common.js Tests</title>
+    <link rel="stylesheet" type="text/css" href="../jsunit/css/jsUnitStyle.css">
+    <script language="JavaScript" type="text/javascript" src="../jsunit/app/jsUnitCore.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../../base/common.js"></script>
+    <script language="JavaScript" type="text/javascript">
+
+		
+		function test_dollar_sign() {
+			assertEquals(true, $('test_element_1').name === document.getElementById('test_element_1').name);
+		}
+		
+		function test_create_element() {
+			var a_div = create_element('div');
+			assertNotNull(a_div);
+		}
+		
+		function test_create_text_node() {
+			var a_div = create_text_node('Some Text');
+			assertNotNull(a_div);
+		}
+		
+		function test_getElementsByClassName() {
+			var els = getElementsByClassName($('test_elements'), 'test_class');
+			assertEquals(true, els.length === 3);
+			assertEquals(true, els[0].innerHTML === 'hello1');
+			assertEquals(true, els[1].innerHTML === 'hello2');
+			assertEquals(true, els[2].innerHTML === 'hello3');
+		}
+		
+		function test_set_id() {
+			var el = create_element('div');
+			set_id(el, 'my_test_id');
+			assertEquals(true, el.id === 'my_test_id');
+		}
+		
+		function test_add_class_name() {
+			var may_already_exist = true;
+			var el = create_element('div');
+			add_class_name(el, 'test_class_name', may_already_exist);
+		}
+		
+		function test_remove_class_name() {
+			var el = create_element('div');
+			el.className = 'test_class_name'
+			assertEquals(true, el.className === 'test_class_name');
+			remove_class_name(el, 'test_class_name');
+			assertEquals(true, el.className === '');
+		}
+		
+		function test_remove_children_from_node() {
+			assertEquals(true, $('test_elements').childNodes.length === 3);
+			remove_children_from_node($('test_elements'));
+			assertEquals(true, $('test_elements').childNodes.length === 0);
+		}
+		
+		function test_contains_child() {
+			// not implemented yet
+			//var result = contains_child($('test_elements'), 'div');
+			//assertEquals(true, result);
+		}
+		
+		function test_window_width() {
+			assertNotNull(window_width());
+		}
+		
+		function test_window_height() {
+			assertNotNull(window_height());
+		}
+		
+		function test_val_px() {
+			assertEquals(true, val_px(10) === '10px');
+		}
+		
+		function test_Point() {
+			var my_point = new Point(3, 4);
+			assertEquals(true, my_point.x === 3);
+			assertEquals(true, my_point.y === 4);
+		}
+		
+		function test_get_offset_xy() {
+			//get_offset_xy(obj, find_id, point);
+		}
+		
+		function test_move_to() {
+			//move_to(obj, x, y)
+		}
+		
+		function test_isEmpty() {
+			assertEquals(true, isEmpty(''));
+			assertEquals(true, isEmpty(' '));
+		}
+		
+		function test_trim() {
+			var a_str = 'Tim   ';
+			assertEquals(6, a_str.length);
+			b_str = a_str.trim();
+			assertEquals(3, b_str.length);
+		}
+		
+		function test_isNumeric() {
+			assertEquals(true, isNumeric(9));
+			assertEquals(true, isNumeric('110'));
+			assertEquals(false, isNumeric('abc'));
+			assertEquals(false, isNumeric('10ab'));
+			assertEquals(false, isNumeric('ab10'));
+		}
+		
+		function test_isAlphaNumeric() {
+			assertEquals(true, isAlphaNumeric(9));
+			assertEquals(true, isAlphaNumeric('110'));
+			assertEquals(true, isAlphaNumeric('abc'));
+			assertEquals(true, isAlphaNumeric('10ab'));
+			assertEquals(true, isAlphaNumeric('ab10'));
+			assertEquals(false, isAlphaNumeric('ab*10'));
+			assertEquals(false, isAlphaNumeric('ab//10'));
+			assertEquals(false, isAlphaNumeric('ab%10'));
+		}
+		
+        function test_isLessMaxLen() {
+            assertEquals(true, isLessMaxLen('test', 7));
+			assertEquals(false, isLessMaxLen('test', 2));
+			assertEquals(true, isLessMaxLen('test', 4));
+        }
+		
+		function test_isMoreMinLen() {
+			assertEquals(false, isMoreMinLen('test', 8));
+			assertEquals(true, isMoreMinLen('test', 2));
+		}
+		
+		function test_isRange() {
+			assertEquals(true, isRange(10, 2, 15));
+			assertEquals(false, isRange(10, 11, 15));
+		}
+		
+		function test_get_selected_value() {
+			var res = get_selected_value('test_options');	
+			assertEquals('option_2', res);
+		}
+		
+		function test_get_input_value() {
+			var res = get_input_value('test_text_1');
+			assertEquals('Hello', res);
+			
+			res = get_input_value('test_text_2');
+			assertEquals('Goodbye', res);
+		}
+		
+		function test_set_input_value() {
+			set_input_value('test_text_1', 'New Val');
+			assertEquals('New Val', $('test_text_1').value);
+			
+			set_input_value('test_text_1', 'Hello');
+		}
+		
+		function test_is_value_checked() {
+			var res = is_value_checked('checkbox_1');
+			assertEquals(false, res);
+			
+			res = is_value_checked('checkbox_2');
+			assertEquals(true, res);
+		}
+		
+		function test_get_selected_radio_value() {
+			var sel = get_selected_radio_value(document.test_form.test_radio);
+			assertEquals(sel, 'radio_one');
+		}
+		
+		function test_is_empty_input() {
+			var res = is_empty_input('empty_input');
+			assertEquals(true, res);
+
+			res = is_empty_input('test_text_1');
+			assertEquals(false, res);
+		}
+		
+		function test_isRadioSelected() {
+			var res = isRadioSelected('test_form', 'test_radio');
+			assertEquals(true, res);
+			
+			res = isRadioSelected('test_form', 'test_radio_two');
+			assertEquals(false, res);
+		}
+		
+		function test_getRadioSelectedValue() {
+			var sel = getRadioSelectedValue('test_form', 'test_radio');
+			assertEquals(sel, 'radio_one');			
+		}
+		
+		function test_build_form_data() {
+			var result = build_form_data('test_form');
+			assertEquals('test_text_1=Hello&test_text_2=Goodbye&empty_input=&test_radio=radio_one&checkbox_2=on&test_options=option_2', result);
+		}
+		
+    </script>
+</head>
+
+<body>
+<h1>JsUnit OnLoad Tests</h1>
+
+<div id="test_element_1" name="test_element_1">This is a test element.</div>
+
+<div id='test_elements'>
+	<div class="test_class">hello1</div>
+	<div class="test_class">hello2</div>
+	<div class="test_class">hello3</div>
+</div>
+
+<form id="test_form" name="test_form">
+	<input type="text" id="test_text_1" name="test_text_1" value="Hello"/>
+	<input type="text" id="test_text_2" name="test_text_2" value="Goodbye"/>
+	<input type="text" id="empty_input" name="empty_input" value=""/>
+	
+	<input type="radio" name="test_radio" value="radio_one" checked="checked"/>
+	<input type="radio" name="test_radio" value="radio_two"/>
+	
+	<input type="radio" name="test_radio_two" value="radio_one"/>
+	<input type="radio" name="test_radio_two" value="radio_two"/>
+	
+	<input type="checkbox" name="checkbox_1" id="checkbox_1"/>
+	<input type="checkbox" name="checkbox_2" id="checkbox_2" checked="checked"/>
+	
+	<select id="test_options" name="test_options">
+		<option value="option_1">Option 1</option>
+		<option value="option_2" selected="selected">Option 2</option>
+		<option value="option_3">Option 3</option>
+	</select>
+</form>
+
+<p>This page contains tests for the JsUnit Framework. To see them, take a look at the source.</p>
+</body>
+</html>

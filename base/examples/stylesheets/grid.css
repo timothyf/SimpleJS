@@ -1,0 +1,58 @@
+.grid {
+	background-color: lightblue;
+}
+
+.grid_header {
+	height: 20px;
+}
+
+.grid_content {
+
+}
+
+.grid_row {
+
+}
+
+.grid_row_table tr {
+	background-color: white;
+}
+
+.grid_row_table tr.row_hover {
+	background-color: #dde4e6;
+}
+
+.grid_row_table tr.row_selected {
+	background-color: #55b5d5;
+}
+
+.grid_row_table {
+	padding: 0px;
+	margin: 0px;
+}
+
+.grid_row_cell {
+	width: 75px;
+	padding: 3px;
+	font-size: 8.25pt;
+	font-family: "Arial";
+}
+
+
+.grid_row_cell_header {
+	background-color: #0a94d5;
+	color: white;
+}
+
+.scroll_box {
+	overflow: scroll;
+}
+
+.sort_down {
+	background: transparent url(../images/arrowDown.png) no-repeat scroll right center;
+}
+
+.sort_up {
+	background: transparent url(../images/arrowUp.png) no-repeat scroll right center;	
+}
+

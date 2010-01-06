@@ -1,0 +1,63 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>JsUnit base/extensions.js Tests</title>
+    <link rel="stylesheet" type="text/css" href="../jsunit/css/jsUnitStyle.css">
+    <script language="JavaScript" type="text/javascript" src="../jsunit/app/jsUnitCore.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../../base/extensions.js"></script>
+    <script language="JavaScript" type="text/javascript">
+    	
+		function test_array_remove() {
+			var my_array = ['tim', 'tom', 'jim', 'john'];	
+			my_array.remove(1,2);
+			assertEquals("tim,john", my_array.toString());
+			
+			my_array = ['tim', 'tom', 'jim', 'john'];	
+			my_array.remove(0,0);
+			assertEquals("tom,jim,john", my_array.toString());
+			
+		}
+		
+		function test_array_contains() {
+			
+		}
+		
+		function test_array_clone() {
+			var array1 = ['tim', 'bob', 'john'];
+			var array2 = array1.clone();
+			assertEquals(3, array2.length);
+			assertEquals('tim', array2[0]);
+			assertEquals('bob', array2[1]);
+			assertEquals('john', array2[2]);
+			array1.remove(1,1);
+			assertEquals(2, array1.length);
+			assertEquals(3, array2.length);
+		}
+		
+		function test_object_clone() {
+			
+		}
+		
+		function test_string_trim() {
+			
+		}
+    </script>
+</head>
+
+<body>
+<h1>JsUnit OnLoad Tests</h1>
+
+<div id="test_element_1" name="test_element_1">This is a test element.</div>
+
+<div id='test_elements'>
+	<div class="test_class">hello1</div>
+	<div class="test_class">hello2</div>
+	<div class="test_class">hello3</div>
+</div>
+
+<p>This page contains tests for the JsUnit Framework. To see them, take a look at the source.</p>
+</body>
+</html>

@@ -1,0 +1,30 @@
+
+.spinner_widget {
+	font-size: 12pt;
+}
+
+.spinner_btns {
+	float: left;
+}
+
+.spinner_input {
+	float: left;
+	height: 24px;
+	border: 1px solid blue;
+}
+
+.up_arrow {
+	border: 1px solid gray;
+	width: 18px;
+	text-align: center;
+	cursor: pointer;
+	background-color: #cadaef;
+}
+
+.down_arrow {
+	border: 1px solid gray;	
+	width: 18px;
+	text-align: center;
+	cursor: pointer;
+	background-color: #cadaef;
+}

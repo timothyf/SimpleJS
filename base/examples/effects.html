@@ -1,0 +1,120 @@
+
+<html>
+
+<head>
+	
+	<script src="../common.js" type="text/javascript"></script>
+	<script src="../extensions.js" type="text/javascript"></script>
+	<script src="../event.js" type="text/javascript"></script>
+	<script src="../effects.js" type="text/javascript"></script>
+	
+	<link href="examples.css" media="screen" rel="stylesheet" type="text/css" />
+	<link href="stylesheets/dialog_box.css" media="screen" rel="stylesheet" type="text/css" />
+	
+	<script>
+		window.onload = init;
+
+		function init() {
+			add_listener($('fade_this'), 'click', handle_fade);
+			add_listener($('blinds_multi'), 'click', test_blinds_one);
+		}
+
+		function handle_fade() {
+			Effects.fade({'id' : 'fade_this', 
+						  'interval' : 30});
+		}
+
+		function test_blinds_one() {
+			if (parseInt($('blinds_multi').style.width) > 10) {
+				Effects.blind_up({'mode' : 'width', 
+								  'id' : 'blinds_multi', 
+								  'end' : 10, 
+								  'interval' : 10});
+				
+				Effects.blind_up({'mode' : 'opacity', 
+								  'id' : 'blinds_multi', 
+								  'start' : 100, 
+								  'end' : 10, 
+								  'interval' : 10});
+				
+				Effects.blind_up({'mode' : 'height', 
+								  'id' : 'blinds_multi', 
+								  'end' : 10, 
+								  'interval' : 10});
+			}
+			else {
+				Effects.blind_down({'mode' : 'width', 
+								    'id' : 'blinds_multi', 
+								    'end' : 100, 
+								    'interval' : 10});
+				
+				Effects.blind_down({'mode' : 'opacity', 
+								    'id' : 'blinds_multi', 
+								    'start' : 10, 
+								    'end' : 100, 
+								    'interval' : 10});
+				
+				Effects.blind_down({'mode' : 'height', 
+								    'id' : 'blinds_multi', 
+								    'end' : 100, 
+								    'interval' : 10});
+			}
+		}
+	
+		function test_blinds_two() {
+			if (parseInt($('blinds_one').style.height) == 20) {
+				Effects.blind_down({'mode' : 'height', 
+								    'id' : 'blinds_one', 
+								    'end' : 200, 
+								    'interval' : 20});
+			}
+			else {
+				Effects.blind_up({'mode' : 'height', 
+								  'id' : 'blinds_one', 
+								  'end' : 20, 
+								  'interval' : 20});
+			}
+		}
+	
+		function test_blinds_three() {
+			if (parseInt($('blinds_two').style.height) == 20) {
+				Effects.blind_down({'mode' : 'height', 
+								    'id' : 'blinds_two', 
+								    'end' : 200, 
+								    'interval' : 20});
+			}
+			else {
+				Effects.blind_up({'mode' : 'height', 
+							      'id' : 'blinds_two', 
+							      'end' : 20, 
+							      'interval' : 20});
+			}	
+		}
+	</script>
+	
+</head>
+
+<body>
+	<div class="demo_section" id="effects_demo">
+		<div class="demo_section_title">Effects</div>
+		<div class="demo_subsection">
+			Fade (click image to fade it)<br/>
+			<img id="fade_this" src="rails.png"/>
+		</div>
+		<div class="demo_subsection">
+			Blinds (click red block)
+			<div id="blinds_multi" style="position:relative;width:100px;height:100px;background-Color:red;"></div>		
+			<br/><br/><br/>
+			Click on each of the divs below
+			<div style="position:relative;">
+				<div id="blinds_one" style="position:absolute;overflow:hidden;left:0px;top:0px;width:100px;height:20px;background-Color:red;"
+					onclick="test_blinds_two()"></div>
+				
+				<div id="blinds_two" style="position:absolute;overflow:hidden;left:100px;top:0px;width:100px;height:20px;background-Color:green;"
+					onclick="test_blinds_three();"></div>
+			</div>
+		</div>
+		<br/><br/><br/><br/><br/><br/>
+	</div>
+</body>
+</html>

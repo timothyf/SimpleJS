@@ -1,0 +1,321 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>JsUnit base/grid.js Tests</title>
+    <link rel="stylesheet" type="text/css" href="../jsunit/css/jsUnitStyle.css">
+    <script language="JavaScript" type="text/javascript" src="../jsunit/app/jsUnitCore.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../../base/common.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../../base/extensions.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../../base/ajax.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../../base/grid.js"></script>
+    <script language="JavaScript" type="text/javascript">
+    	
+		function setUpPage(){
+			grid = new Grid('test_grid');
+			
+			Ajax = function(){
+				this.polling_get = function(){
+					assertEquals(6, arguments.length);
+					assertEquals(url, arguments[0]);
+					ajax_called = true;
+				};
+				
+				this.send_post = function() {
+					assertEquals(5, arguments.length);
+					ajax_posted = true;
+				};
+				
+				this.send_get = function() {
+					assertEquals(4, arguments.length);
+					ajax_geted = true;
+				};
+			};
+			
+			setUpPageStatus = 'complete';
+		}
+		
+		function setUp() {
+      		grid_header = [
+ 				{ 
+ 					label: 'Company',
+ 					width: '100px'},
+ 				{
+	 				label: 'City',
+	 				width: '100px',
+					editable: true},
+ 				{
+	 				label: 'Rank',
+	 				width: '50px',
+	 				editable: true}];
+					
+			grid_data = [['GM', 'Detroit', '1'], 
+ 				        ['Ford', 'Dearborn', '2'], 
+ 				        ['Chrysler', 'Auburn Hills', '3'], 
+ 				        ['Toyota', 'Tokyo', '4']];
+						
+			var selection_type = GridSelectionModel.SINGLE;
+			grid.init(grid_header, grid_data, selection_type);
+		};
+		
+		function tearDown() {
+			grid.destroy();
+		}
+		
+		function test_init() {
+			grid.destroy();
+			var selection_type = GridSelectionModel.NONE;
+			assertEquals(0, grid.row_count());
+			grid.init(grid_header, grid_data, selection_type);
+			assertEquals('Detroit', grid.get_value(0,1));
+			assertEquals(4, grid.row_count());
+		}
+		
+		function test_init_with_default_sort_col() {
+			grid.destroy();
+			var selection_type = GridSelectionModel.NONE;
+			var default_sort_col = 1;
+			grid.init(grid_header, grid_data, selection_type, default_sort_col);
+			assertEquals('Tokyo', grid.get_value(0,1));
+		}
+		
+		function test_init2() {
+			grid.destroy();
+			grid.init2({
+				'selection_type' : GridSelectionModel.NONE,
+				'grid_header' : grid_header,
+				'grid_data' : grid_data,
+				'sort_col' : 1
+			});
+			assertEquals('Auburn Hills', grid.get_value(0,1));
+		}
+		
+		function test_load() {
+			grid.destroy();
+			grid.load('some_url');
+			assertEquals(true, ajax_geted);
+		}
+		
+		function test_row_id() {
+			assertEquals('test_grid_grid_row_0', grid.row_id(0));
+			assertEquals('test_grid_grid_row_1', grid.row_id(1));	
+		}
+		
+		function test_cell_id() {
+			assertEquals('test_grid_grid_cell_0_0', grid.cell_id(0, 0));
+			assertEquals('test_grid_grid_cell_0_1', grid.cell_id(0, 1));	
+		}
+		
+		function test_header_cell_id() {
+			assertEquals('test_grid_header_cell_0', grid.header_cell_id(0));
+			assertEquals('test_grid_header_cell_1', grid.header_cell_id(1));
+		}
+		
+		function test_destroy() {
+			var rows = getElementsByClassName($('test_grid'), 'grid_row');
+			assertEquals(4, rows.length);
+			grid.destroy();
+			assertEquals(0, $('test_grid').childNodes.length);
+			var rows = getElementsByClassName($('test_grid'), 'grid_row');
+			assertEquals(0, rows.length);
+		}
+		
+		function test_get_value() {
+			assertEquals('GM', grid.get_value(0,0));
+			assertEquals('Ford', grid.get_value(1,0));
+			assertEquals('3', grid.get_value(2,2));
+		}
+		
+		function test_handle_double_click() {
+			var old_start_edit = grid.start_edit;
+			var start_edit_called = false;
+			grid.start_edit = function() {
+				start_edit_called = true;
+			};
+			grid.handle_double_click(0, 0);
+			assertEquals(false, start_edit_called);
+			
+			grid.handle_double_click(1, 1);
+			assertEquals(true, start_edit_called);
+			
+			grid.start_edit = old_start_edit;
+		}
+		
+		function test_start_edit() {
+			assertEquals(-1, $($(grid.grid_id).id + '_grid_cell_0_0').innerHTML.indexOf('INPUT'));
+			grid.start_edit(0,0);			
+			assertEquals(1, $($(grid.grid_id).id + '_grid_cell_0_0').innerHTML.indexOf('INPUT'));
+		}
+		
+		function test_save_edits() {
+			var odc_called = false;
+			grid.on_data_change = function() {
+				odc_called = true;
+			};
+			assertEquals(-1, $($(grid.grid_id).id + '_grid_cell_0_1').innerHTML.indexOf('INPUT'));
+			grid.start_edit(0,1);			
+			assertEquals(1, $($(grid.grid_id).id + '_grid_cell_0_1').innerHTML.indexOf('INPUT'));
+			grid.save_edits();
+			assertEquals(-1, $($(grid.grid_id).id + '_grid_cell_0_1').innerHTML.indexOf('INPUT'));	
+			assertEquals(true, odc_called);
+		}
+		
+		function test_remove_row() {
+			assertEquals(4, grid.row_count());
+			grid.remove_row(1);
+			assertEquals(3, grid.row_count());
+		}
+		
+		function test_add_row() {
+			var new_row = ['Honda', 'Tokyo', '5'];
+			grid.add_row(new_row);
+		}
+		
+		function test_remove_selected_rows() {
+			assertEquals(4, grid.row_count());
+			grid.select_row(2);
+			grid.remove_selected_rows();
+			assertEquals(3, grid.row_count());
+			
+			var selection_type = GridSelectionModel.MULTI;
+			grid.init(grid_header, grid_data, selection_type);
+			assertEquals(4, grid.row_count());
+			grid.select_row(1);
+			grid.select_row(2);
+			grid.remove_selected_rows();
+			assertEquals(2, grid.row_count());
+		}
+		
+		function test_sort() {
+			assertEquals('Detroit', grid.get_value(0,1));
+			grid.sort(1);
+			assertEquals('Tokyo', grid.get_value(0,1));
+			grid.sort(1);
+			assertEquals('Auburn Hills', grid.get_value(0,1));
+			grid.sort(1);
+			assertEquals('Tokyo', grid.get_value(0,1));
+		}
+		
+		function test_filter() {
+			var results = grid.filter(1, 'Dearborn');
+			assertEquals(1, results.length);
+			
+			var results = grid.filter(1, 'De');
+			assertEquals(2, results.length);
+		}
+		
+		function test_redisplay() {
+			assertEquals('Detroit', $($(grid.grid_id).id + '_grid_cell_0_1').innerHTML);
+			grid.set_value(0,1,'Ann Arbor');
+			grid.redisplay();
+			assertEquals('Ann Arbor', $($(grid.grid_id).id + '_grid_cell_0_1').innerHTML);
+		}
+		
+		function test_row_click() {
+			assertEquals(false, grid.is_row_selected(1));
+			grid.row_click(1);	
+			assertEquals(true, grid.is_row_selected(1));
+			grid.row_click(1);	
+			assertEquals(false, grid.is_row_selected(1));
+		}
+		
+		function test_select_row() {
+			assertEquals(false, grid.is_row_selected(1));
+			grid.select_row(1);
+			assertEquals(true, grid.is_row_selected(1));
+		}
+		
+		function test_deselect_row() {
+			assertEquals(false, grid.is_row_selected(2));
+			grid.select_row(2);
+			assertEquals(true, grid.is_row_selected(2));
+			grid.deselect_row(2);
+			assertEquals(false, grid.is_row_selected(2));
+		}
+		
+		function test_get_selected_rows() {
+			assertEquals(0, grid.get_selected_rows().length);
+			grid.select_row(0);
+			assertEquals(1, grid.get_selected_rows().length);
+			grid.deselect_row(0);			
+			var selection_type = GridSelectionModel.MULTI;
+			grid.init(grid_header, grid_data, selection_type);
+			grid.select_row(0);
+			grid.select_row(1);
+			assertEquals(2, grid.get_selected_rows().length);
+		}
+		
+		function test_is_row_selected() {
+			assertEquals(false, grid.is_row_selected(2));
+			grid.select_row(2);
+			assertEquals(true, grid.is_row_selected(2));
+		}
+		
+		function test_select_all() {
+			assertEquals(0, grid.get_selected_rows().length);
+			grid.select_all();
+			assertEquals(1, grid.get_selected_rows().length);
+			var selection_type = GridSelectionModel.MULTI;
+			grid.init(grid_header, grid_data, selection_type);
+			assertEquals(0, grid.get_selected_rows().length);
+			grid.select_all();
+			assertEquals(4, grid.get_selected_rows().length);
+		}
+		
+		function test_deselect_all() {
+			var selection_type = GridSelectionModel.MULTI;
+			grid.init(grid_header, grid_data, selection_type);
+			assertEquals(0, grid.get_selected_rows().length);
+			grid.select_all()
+			assertEquals(4, grid.get_selected_rows().length);
+			grid.deselect_all();
+			assertEquals(0, grid.get_selected_rows().length);	
+		}
+		
+    </script>
+</head>
+
+<body>
+<h1>JsUnit OnLoad Tests</h1>
+
+<div id="test_grid"></div>
+
+<div id="test_element_1" name="test_element_1">This is a test element.</div>
+
+<div id='dlg_processing_title'>Title</div>
+<div id='dlg_processing_content'>Content</div>
+
+<div id='test_elements'>
+	<div class="test_class">hello1</div>
+	<div class="test_class">hello2</div>
+	<div class="test_class">hello3</div>
+</div>
+
+<p>This page contains tests for the JsUnit Framework. To see them, take a look at the source.</p>
+
+<form id="test_form" name="test_form">
+	<input type="text" id="test_text_1" name="test_text_1" value="Hello"/>
+	<input type="text" id="test_text_2" name="test_text_2" value="Goodbye"/>
+	<input type="text" id="empty_input" name="empty_input" value=""/>
+	
+	<input type="radio" name="test_radio" value="radio_one" checked="checked"/>
+	<input type="radio" name="test_radio" value="radio_two"/>
+	
+	<input type="radio" name="test_radio_two" value="radio_one"/>
+	<input type="radio" name="test_radio_two" value="radio_two"/>
+	
+	<input type="checkbox" name="checkbox_1" id="checkbox_1"/>
+	<input type="checkbox" name="checkbox_2" id="checkbox_2" checked="checked"/>
+	
+	<select id="test_options" name="test_options">
+		<option value="option_1">Option 1</option>
+		<option value="option_2" selected="selected">Option 2</option>
+		<option value="option_3">Option 3</option>
+	</select>
+</form>
+
+
+</body>
+</html>

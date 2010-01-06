@@ -1,0 +1,84 @@
+<html>
+
+<head>
+	
+	<script src="../common.js" type="text/javascript"></script>
+	<script src="../extensions.js" type="text/javascript"></script>
+	<script src="../event.js" type="text/javascript"></script>
+	<script src="../dialog_box.js" type="text/javascript"></script>
+	<script src="../app_dialogs.js" type="text/javascript"></script>
+	
+	<link href="examples.css" media="screen" rel="stylesheet" type="text/css" />
+	<link href="stylesheets/dialog_box.css" media="screen" rel="stylesheet" type="text/css" />
+	
+	<script>
+		window.onload = init;
+		
+		var my_processing_dlg, my_results_dlg; 
+		
+		function init(){
+			add_listener($('show_processing_btn'), 'click', handle_show_processing);
+			add_listener($('show_results_btn'), 'click', handle_show_results);
+			add_listener($('show_confirm_btn'), 'click', handle_show_confirm);
+			
+			//DialogBox.image_path = "../../../images/";
+		}
+		
+		function handle_show_processing() {	
+			show_processing(cancel_handler);
+		}
+
+		function handle_show_results() {
+			show_results("The results are<br/><br/><br/><br/><br/><br/><br/>Driver's Door Unlocked.",
+			             'Results',
+						 AppAlert.Info);
+		}
+		
+		function handle_show_confirm() {
+			show_confirm_dlg('Confirm', 'Select Yes or No', ok_handler, cancel_handler)
+		}
+		
+		function ok_handler() {
+			alert('ok');
+		}
+
+		function cancel_handler() {
+			alert('canceled');
+		}
+		
+		function show_processing(cancel_handler) {
+			var processing_dlg = new ProcessingDlg({'cancel_handler': cancel_handler,
+													'title': 'Processing'});
+			processing_dlg.set_content('Processing...');
+			processing_dlg.show();
+		}
+
+		function show_results(msg, title, icon) {
+			var results_dlg = new ResultsDlg({
+				'icon': icon ? icon : AppAlert.Error,
+				'title' : title
+			});
+			results_dlg.set_content(msg);
+			results_dlg.show();
+		}
+		
+		function show_confirm_dlg(title, msg, ok_handler, cancel_handler) {
+			var confirm_dlg = new ConfirmDlg({'ok_handler':ok_handler, 
+											  'cancel_handler':cancel_handler,
+											  'title':title});
+			confirm_dlg.ask_user(msg);
+		}
+
+	</script>
+</head>
+
+<body>
+	<div class="demo_section" id="dlg_demo">
+		<div class="demo_section_title">Dialogs</div>
+		<button id="show_processing_btn">Show Processing</button>
+		<button id="show_results_btn">Show Results</button>
+		<button id="show_confirm_btn">Show Confirmation Dlg</button>
+	</div>
+</body>
+	
+</html>

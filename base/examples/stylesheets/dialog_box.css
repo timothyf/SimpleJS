@@ -1,0 +1,73 @@
+
+div.dialog_box {
+	position: absolute;
+	display: none;
+}
+	
+div.dialog_box .tb_left {
+	background: url(../images/dialogTL3.gif) no-repeat left top;
+	width: 10px;
+}
+	
+div.dialog_box .tb_right {
+	background: url(../images/dialogTR3.gif) no-repeat right top;
+	width: 16px;
+	padding: 8px 4px 3px 0;
+	vertical-align: top;
+}
+	
+div.dialog_box .title {
+	background: url(../images/dialogTM3.gif) top;
+	background-color: #a9a9a9;
+	font-size: 10pt;
+	font-weight: bold;
+	white-space: nowrap;
+	color: #000000;
+	color: white;
+	padding: 4px 0px 2px 0px;
+	cursor:move;
+	font-family: "Arial";
+}
+
+div.dialog_box_OLD {
+	border-top	 : 1px solid #EDEDED;
+	border-right : 1px solid #ABABAB;
+	border-bottom: 1px solid #ABABAB;
+	border-left	: 1px solid #EDEDED;
+}
+
+div.dialog_box {
+
+}
+	
+div.dialog_box .main_panel_OLD {
+	border-top	 : 1px solid #898989;
+	border-right : 1px solid #4E4E4E;
+	border-bottom: 1px solid #4E4E4E;
+	border-left	: 1px solid #898989;
+	background-color: #ffffff;
+	background-color: #b7d0ef;
+}
+
+div.dialog_box .main_panel {
+	border-right : 1px solid #6e8fb0;
+	border-bottom: 1px solid #6e8fb0;
+	border-left	: 1px solid #6e8fb0;
+	background-color: #ffffff;
+	background-color: #b7d0ef;
+}
+	
+div.dialog_box .main_panel .content_area {
+	margin: 16px;
+}
+
+div.dialog_box .main_panel .content_area button {
+	background-color: white;
+}
+
+div.dialog_box .dialog_btn {
+	font-size: 10pt;
+	width: 60px;
+	margin: 0px 5px;
+}
+

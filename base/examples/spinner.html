@@ -1,0 +1,50 @@
+<html lang="en">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
+
+	<script src="../common.js" type="text/javascript"></script>
+	<script src="../event.js" type="text/javascript"></script>
+	<script src="../spinner.js" type="text/javascript"></script>
+	
+	<link href="examples.css" media="screen" rel="stylesheet" type="text/css" />
+	<link href="stylesheets/spinner.css" media="screen" rel="stylesheet" type="text/css" />
+	
+	<script language="JavaScript">
+		
+window.onload = init;
+
+var my_processing_dlg, my_results_dlg; 
+
+function init() {
+	add_listener($('activate_spinner_btn'), 'click', handle_activate_spinner);
+}
+		
+function handle_activate_spinner() {
+	myspinner = new Spinner('spinner_test');
+	myspinner.init();
+	
+	wide_spinner = new Spinner('wide_spinner_test');
+	wide_spinner.init();
+}		
+		
+	</script>
+	
+</head>
+
+<body>
+<div class="demo_section" id="spinner_demo">
+	<div class="demo_section_title">Spinner</div>
+	<button id="activate_spinner_btn">Activate Spinner</button>
+	<div id="spinner_test" class="spinner_widget" value="20" interval="1" 
+		 max_value="30" min_value="1" style="width: 55px;">
+	</div><span style="float:left;margin-top:20px;">min</span>
+	<div style="clear:both"></div>
+	<br/><br/>
+	<div id="wide_spinner_test" class="spinner_widget" value="10" interval="0.5" 
+		 max_value="20" min_value="1" style="width: 55px;">
+	</div><span style="float:left;margin-top:20px;">sec</span>
+</div>
+</body>
+
+</html>
